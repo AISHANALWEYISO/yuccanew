@@ -1,0 +1,47 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #d0e2c5;
+  height: 100%;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(54, 96, 0, 0.2);
+}
+
+.icon-container {
+  width: 60px;
+  height: 60px;
+  background-color: #d0e2c5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.icon-container:hover {
+  transform: scale(1.2);
+}
+
+.service-card {
+  height: 100%; /* ensure card fills column height */
+  display: flex;
+  flex-direction: column;
+}
+
+.service-img {
+  height: 180px;         /* fixed height */
+  object-fit: cover;     /* cover crops image, maintaining aspect ratio */
+  width: 100%;           /* full width */
+  border-top-left-radius: 0.25rem; /* keep rounded corners */
+  border-top-right-radius: 0.25rem;
+}
+
+.card-body {
+  flex: 1 1 auto;        /* allow body to fill remaining card height */
+  display: flex;
+  flex-direction: column;
+}
