@@ -92,16 +92,15 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:5000/api/v1/homepage';
 
 const Intro = () => {
-  const [intro, setIntro] = useState(null); // { id, title, description }
+  const [intro, setIntro] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(false); // <-- added
 
-  const token = localStorage.getItem('token'); // JWT token stored here after login
+  const token = localStorage.getItem('token');
 
-  // Fetch intro from backend
   const fetchIntro = async () => {
     setLoading(true);
     setError('');
@@ -113,7 +112,6 @@ const Intro = () => {
       setEditing(true);
     } catch (err) {
       if (err.response && err.response.status === 404) {
-        // No intro found yet
         setIntro(null);
         setTitle('');
         setDescription('');
@@ -130,7 +128,6 @@ const Intro = () => {
     fetchIntro();
   }, []);
 
-  // Create new intro
   const createIntro = async () => {
     setLoading(true);
     setError('');
@@ -140,7 +137,7 @@ const Intro = () => {
         { title, description },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchIntro(); // reload intro after create
+      fetchIntro();
     } catch (err) {
       setError('Failed to create intro.');
     } finally {
@@ -148,12 +145,8 @@ const Intro = () => {
     }
   };
 
-  // Update existing intro
   const updateIntro = async () => {
-    if (!intro?.id) {
-      setError('Intro ID missing.');
-      return;
-    }
+    if (!intro?.id) return setError('Intro ID missing.');
     setLoading(true);
     setError('');
     try {
@@ -162,7 +155,7 @@ const Intro = () => {
         { title, description },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      fetchIntro(); // reload after update
+      fetchIntro();
     } catch (err) {
       setError('Failed to update intro.');
     } finally {
@@ -170,12 +163,8 @@ const Intro = () => {
     }
   };
 
-  // Delete intro
   const deleteIntro = async () => {
-    if (!intro?.id) {
-      setError('Intro ID missing.');
-      return;
-    }
+    if (!intro?.id) return setError('Intro ID missing.');
     setLoading(true);
     setError('');
     try {
@@ -196,7 +185,6 @@ const Intro = () => {
   return (
     <div>
       <h2>Homepage Intro</h2>
-
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -206,7 +194,8 @@ const Intro = () => {
           <input
             type="text"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            placeholder="Enter intro title"
+            onChange={(e) => setTitle(e.target.value)}
             style={{ width: '100%', padding: '0.5rem', marginTop: '0.2rem' }}
           />
         </label>
@@ -217,7 +206,8 @@ const Intro = () => {
           Description:
           <textarea
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            placeholder="Enter intro description"
+            onChange={(e) => setDescription(e.target.value)}
             rows={5}
             style={{ width: '100%', padding: '0.5rem', marginTop: '0.2rem' }}
           />
@@ -230,7 +220,11 @@ const Intro = () => {
             <button onClick={updateIntro} disabled={loading} style={{ marginRight: '1rem' }}>
               Update Intro
             </button>
-            <button onClick={deleteIntro} disabled={loading} style={{ backgroundColor: 'red', color: 'white' }}>
+            <button
+              onClick={deleteIntro}
+              disabled={loading}
+              style={{ backgroundColor: 'red', color: 'white' }}
+            >
               Delete Intro
             </button>
           </>
@@ -245,5 +239,3 @@ const Intro = () => {
 };
 
 export default Intro;
-                                  
-

@@ -130,7 +130,7 @@ const ManageAdmins = () => {
       <Table striped bordered hover responsive>
         <thead style={{ backgroundColor: '#366000', color: 'white' }}>
           <tr>
-            <th>#</th>
+            <th>id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>

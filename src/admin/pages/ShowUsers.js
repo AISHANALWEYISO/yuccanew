@@ -88,7 +88,7 @@ const ShowUsers = () => {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>#</th>
+            <th>id</th>
             <th>Name</th>
             <th>Email</th>
             <th>Contact</th>

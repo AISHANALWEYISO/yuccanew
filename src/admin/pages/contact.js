@@ -99,7 +99,7 @@ const ContactMessagesPage = () => {
       <Table striped bordered hover responsive>
         <thead className="table-light">
           <tr>
-            <th>#</th>
+            <th>id</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Message</th>

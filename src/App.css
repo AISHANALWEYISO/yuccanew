@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -47,4 +47,57 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden; /* Prevent horizontal scroll */
+ 
+  /* src/App.css */
+
+/* === Global Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Arial', sans-serif;
+  scroll-behavior: smooth; /* Optional: smooth scrolling */
+}
+
+body {
+  background-color: #f9f9f9; /* Light background for content */
+  color: #333;
+  line-height: 1.6;
+}
+
+/* === Remove default CRA styles (unless you need them) === */
+.App {
+  text-align: center;
+}
+
+/* === Main Content - Pushes content below fixed navbar === */
+.main-content {
+  margin-top: 100px; /* Must be > navbar height (70px) */
+  padding: 20px;
+  min-height: calc(100vh - 90px);
+  width: 100%;
+}
+
+/* Optional: Responsive padding */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+    margin-top: 90px;
+  }
+}
+
+/* === Optional: Link Styling (if used globally) === */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: #2c5a34;
 }

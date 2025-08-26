@@ -1,149 +1,213 @@
-/* Navbar main container */
+/* src/styles/navbar.css */
+
+/* === Base navbar === */
 .navbar-container {
+  position: fixed;
+  top: 0;
   width: 100%;
-  background-color: rgb(222, 235, 225); /* brand greenish */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  font-weight: bolder;
-  position: relative;
+  background-color: #e0f1e5; /* Solid light green */
+  height: 75px;
   z-index: 1000;
-  height: 1.5cm;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.4s ease;
 }
 
+/* === Inner layout === */
 .navbar-inner {
-  max-width: 1200px; /* ~5 cm on large screens */
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 10px 50px;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
+  height: 100%;
 }
 
-/* Logo */
+/* === Logo === */
 .navbar-logo {
-  height: 60px;
+  height: 80px;
   width: auto;
+  vertical-align: middle;
 }
 
-/* Links */
+/* === Hamburger Menu (Mobile) === */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.navbar-hamburger span {
+  width: 28px;
+  height: 3px;
+  background-color: #366000;
+  margin: 4px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.navbar-hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.navbar-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* === Navigation Links === */
 .navbar-links {
   list-style: none;
-  display: flex;
-  gap: 35px;
   margin: 0;
   padding: 0;
+  display: flex;
+  gap: 2.2rem;
   align-items: center;
 }
 
-.navbar-link {
-  color: #366000;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.navbar-link:hover {
-  color: #0c1a0c;
-}
-
-/* About dropdown */
-.navbar-about-item {
+.navbar-links li {
   position: relative;
 }
 
+/* === Link Styling (All links including About) === */
+.navbar-link,
+.dropdown-btn {
+  color: #366000;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.navbar-link:hover,
+.dropdown-btn:hover {
+  color: #48e709;
+}
+
+/* === "About" Dropdown Button – Clean Text + Arrow (▼) === */
+.dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+/* Add dropdown arrow using CSS */
+.dropdown-btn::after {
+  
+  font-size: 0.7em;
+  color: #366000;
+  transition: all 0.3s ease;
+}
+
+.dropdown-btn:hover::after {
+  color: #48e709;
+  transform: scale(1.1);
+}
+
+/* === Dropdown Menu === */
 .navbar-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #E0EAE2;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  border-radius: 6px;
-  padding: 10px 0;
-  min-width: 220px;
+  background: white;
   list-style: none;
+  padding: 0.6rem 0;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   opacity: 0;
   visibility: hidden;
+  transform: translateY(10px);
   transition: all 0.3s ease;
-}
-
-.navbar-about-item:hover .navbar-dropdown {
-  opacity: 1;
-  visibility: visible;
+  z-index: 1001;
 }
 
 .navbar-dropdown.open {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
 }
 
 .navbar-dropdown-link {
   display: block;
-  padding: 10px 20px;
+  padding: 0.7rem 1rem;
   color: #366000;
   text-decoration: none;
-  font-weight: normal;
-  font-size: 14px;
-  transition: background 0.3s;
+  font-size: 0.95rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-dropdown-link:hover {
-  background-color: #b4dbb4;
+  background-color: #f4f8f5;
+  color: #2c5a34;
 }
 
-/* Hamburger for mobile */
-.navbar-hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 5px;
-}
-
-.navbar-hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: #366000;
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-
-.navbar-hamburger.open span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-.navbar-hamburger.open span:nth-child(2) {
-  opacity: 0;
-}
-.navbar-hamburger.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* Mobile Responsive */
-@media (max-width: 1024px) {
+/* === Mobile Responsive === */
+@media (max-width: 768px) {
   .navbar-hamburger {
     display: flex;
+    z-index: 1001;
   }
 
   .navbar-links {
-    display: none;
-    flex-direction: column;
     position: absolute;
-    top: 70px;
-    right: 50px; /* 5 cm from edge */
-    background-color: #cbdbcfff;
-    padding: 15px 20px;
-    border-radius: 8px;
-    gap: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
+    top: 75px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: #e0f1e5;
+    padding: 1rem 0;
+    gap: 0;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.4s ease;
   }
 
   .navbar-links.open {
-    display: flex;
+    height: auto;
+    overflow: visible;
   }
 
-  .navbar-about-item:hover .navbar-dropdown {
-    opacity: 1; /* disable hover effect on mobile */
+  .navbar-link,
+  .dropdown-btn {
+    padding: 0.8rem 1.5rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  /* Mobile: dropdown appears below */
+  .navbar-dropdown {
+    position: static;
+    opacity: 1;
     visibility: visible;
+    transform: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .navbar-dropdown.open {
+    max-height: 300px;
+  }
+
+  /* Mobile: arrow rotates on open */
+  .dropdown-btn::after {
+    
+    float: right;
+  }
+
+  .navbar-dropdown.open ~ .dropdown-btn::after,
+  [aria-expanded='true']::after {
+    transform: rotate(180deg);
   }
 }

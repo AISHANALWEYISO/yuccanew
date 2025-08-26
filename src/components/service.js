@@ -131,7 +131,7 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
+    <div className="container " style={{marginTop:'100px'}}>
       <h2 className="text-center mb-4">Our Services</h2>
       <div className="row">
         {services.map(service => (

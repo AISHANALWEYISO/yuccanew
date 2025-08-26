@@ -1,39 +1,79 @@
 
-
-// import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Container, Row, Col } from 'react-bootstrap';
+// import React from "react";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import { Container, Row, Col } from "react-bootstrap";
+// import {
+//   FaFacebookF,
+//   FaTwitter,
+//   FaLinkedinIn,
+//   FaInstagram,
+// } from "react-icons/fa";
 
 // const Footer = () => {
 //   return (
-//     <footer className="text-white py-4 " style={{ background: '#192618' }}>
-//       <Container className='mt-1'>
-//         {/* Useful Links & Contact Info side by side */}
-//         <Row className="justify-content-center">
-//           <Col md={5}>
-//             <h5>Useful Info</h5>
+//     <footer className="text-white py-4" style={{ background: "#192618" }}>
+//       <Container>
+//         {/* Quick Links & Contact */}
+//         <Row className="justify-content-between">
+//           <Col md={3}>
+//             <h5 className="mb-3" style={{ color: "#D5ED9F" }}>Quick Links</h5>
 //             <ul className="list-unstyled">
-//               <li><a href="/about" className="text-white">Our Story</a></li>
-//               <li><a href="/services" className="text-white">Services</a></li>
-//               <li><a href="/contact" className="text-white">Contact</a></li>
+//               <li><a href="/about" className="footer-link">Our Story</a></li>
+//               <li><a href="/services" className="footer-link">Services</a></li>
+//               <li><a href="/contact" className="footer-link">Contact</a></li>
 //             </ul>
 //           </Col>
 
-//           <Col md={5} style={{marginLeft:''}}>
-//             <h5>Contact Us</h5>
-//             <p>Email: <a href="mailto:yuccan.consult.ac@gmail.com" className="text-white">yuccan.consult.ac@gmail.com</a></p>
+//           <Col md={3}>
+//             <h5 className="mb-3" style={{ color: "#D5ED9F" }}>Contact Us</h5>
+//             <p>Email: <a href="mailto:yuccan.consult.ac@gmail.com" className="footer-link">yuccan.consult.ac@gmail.com</a></p>
 //             <p>Phone: +256-705570825</p>
 //             <p>Address: Namutumba district, 100120. Iganga</p>
 //           </Col>
+
+//           {/* Social Media */}
+//           <Col md={3} className="text-center">
+//             <h5 className="mb-3" style={{ color: "#D5ED9F" }}>Follow Us</h5>
+//             <div className="d-flex justify-content-center gap-3">
+//               <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon"><FaFacebookF /></a>
+//               <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon"><FaTwitter /></a>
+//               <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-icon"><FaLinkedinIn /></a>
+//               <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon"><FaInstagram /></a>
+//             </div>
+//           </Col>
 //         </Row>
 
-//         {/* Bottom Footer */}
-//         <Row className="mt-3">
+//         {/* Copyright */}
+//         <hr style={{ borderColor: "#366000", marginTop: "30px" }} />
+//         <Row>
 //           <Col className="text-center">
-//             <small>&copy; {new Date().getFullYear()} Yucca Consulting Limited. All rights reserved.</small>
+//             <small>
+//               &copy; {new Date().getFullYear()} Yucca Consulting Limited. All rights reserved.
+//             </small>
 //           </Col>
 //         </Row>
 //       </Container>
+
+//       {/* Styles */}
+//       <style jsx>{`
+//         .footer-link {
+//           color: white;
+//           text-decoration: none;
+//           transition: color 0.3s;
+//         }
+//         .footer-link:hover {
+//           color: #366000;
+//         }
+//         .social-icon {
+//           color: white;
+//           font-size: 1.3rem;
+//           transition: color 0.3s, transform 0.3s;
+//         }
+//         .social-icon:hover {
+//           color: #366000;
+//           transform: scale(1.2);
+//         }
+//       `}</style>
 //     </footer>
 //   );
 // };
@@ -41,72 +81,72 @@
 // export default Footer;
 
 
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FaTwitter, FaInstagram, FaYoutube, FaFacebookF } from 'react-icons/fa';
+
+
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaInstagram,
+} from "react-icons/fa";
+import axios from "axios";
+
+const API_BASE = "http://localhost:5000/api/v1/footer";
 
 const Footer = () => {
-  return (
-    <footer className="text-white py-4" style={{ background: '#192618' }}>
-      <Container className='mt-1'>
+  const [footer, setFooter] = useState(null);
 
-        {/* Useful Links & Contact Info */}
-        <Row className="justify-content-center">
-          <Col md={4}>
-            <h5>Useful Info</h5>
+  useEffect(() => {
+    axios.get(API_BASE).then(res => {
+      if (res.data.length > 0) setFooter(res.data[0]);
+    });
+  }, []);
+
+  if (!footer) return null;
+
+  return (
+    <footer className="text-white py-4" style={{ background: "#192618" }}>
+      <Container>
+        <Row className="justify-content-between">
+          <Col md={3}>
+            <h5 style={{ color: "#D5ED9F" }}>Quick Links</h5>
             <ul className="list-unstyled">
-              <li><a href="/about" className="text-white text-decoration-none">Our Story</a></li>
-              <li><a href="/services" className="text-white text-decoration-none">Services</a></li>
-              <li><a href="/contact" className="text-white text-decoration-none">Contact</a></li>
+              <li><a href={footer.link_url} className="footer-link">{footer.link_name}</a></li>
             </ul>
           </Col>
-
-          <Col md={4}>
-            <h5>Contact Us</h5>
-            <p>Email: <a href="mailto:yuccan.consult.ac@gmail.com" className="text-white text-decoration-none">yuccan.consult.ac@gmail.com</a></p>
-            <p>Phone: +256-705570825</p>
-            <p>Address: Namutumba district, 100120. Iganga</p>
+          <Col md={3}>
+            <h5 style={{ color: "#D5ED9F" }}>Contact Us</h5>
+            <p>Email: <a href={`mailto:${footer.email}`} className="footer-link">{footer.email}</a></p>
+            <p>Phone: {footer.phone}</p>
+            <p>Address: {footer.address}</p>
           </Col>
-
-          <Col md={4}>
-            <h5>Follow Us</h5>
-            <div className="d-flex gap-3 mt-2">
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" 
-                className="text-white fs-4 social-icon">
-                <FaTwitter />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
-                className="text-white fs-4 social-icon">
-                <FaInstagram />
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
-                className="text-white fs-4 social-icon">
-                <FaYoutube />
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="text-white fs-4 social-icon">
-                <FaFacebookF />
-              </a>
+          <Col md={3} className="text-center">
+            <h5 style={{ color: "#D5ED9F" }}>Follow Us</h5>
+            <div className="d-flex justify-content-center gap-3">
+              <a href={footer.facebook} target="_blank" rel="noreferrer" className="social-icon"><FaFacebookF /></a>
+              <a href={footer.twitter} target="_blank" rel="noreferrer" className="social-icon"><FaTwitter /></a>
+              <a href={footer.linkedin} target="_blank" rel="noreferrer" className="social-icon"><FaLinkedinIn /></a>
+              <a href={footer.instagram} target="_blank" rel="noreferrer" className="social-icon"><FaInstagram /></a>
             </div>
           </Col>
         </Row>
 
-        {/* Bottom Footer */}
-        <Row className="mt-3">
+        <hr style={{ borderColor: "#366000", marginTop: "30px" }} />
+        <Row>
           <Col className="text-center">
             <small>&copy; {new Date().getFullYear()} Yucca Consulting Limited. All rights reserved.</small>
           </Col>
         </Row>
+
       </Container>
 
-      {/* Hover Effect Styles */}
-      <style>{`
-        .social-icon:hover {
-          color: #ffd700;
-          transform: scale(1.2);
-          transition: all 0.3s ease-in-out;
-        }
+      <style jsx>{`
+        .footer-link { color: white; text-decoration: none; transition: color 0.3s; }
+        .footer-link:hover { color: #366000; }
+        .social-icon { color: white; font-size: 1.3rem; transition: color 0.3s, transform 0.3s; }
+        .social-icon:hover { color: #366000; transform: scale(1.2); }
       `}</style>
     </footer>
   );
