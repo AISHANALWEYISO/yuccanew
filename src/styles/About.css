@@ -1,25 +1,16 @@
-/* .about-container {
-  padding: 40px;
-  background-color: #f8f9fa;
-  text-align: center;
+.container-fluid {
+  padding: 0 !important; /* remove default container padding */
 }
 
-.about-container h1 {
-  color: #366000;
-  margin-bottom: 10px;
+.row.gx-0 {
+  margin-left: 0;
+  margin-right: 0;
 }
 
-.tagline {
-  font-style: italic;
-  color: #666;
-  margin-bottom: 30px;
+.card {
+  border-radius: 8px;
 }
 
-.about-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: left;
-  font-size: 18px;
-  line-height: 1.6;
-} */
-
+img {
+  display: block;
+}

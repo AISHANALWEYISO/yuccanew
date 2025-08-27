@@ -1,41 +1,45 @@
-.banner-container {
+/* Banner like Contact page */
+.products-hero {
+  width: 100%;
+  height: 350px;
+  background-size: cover;
+  background-position: center;
   position: relative;
-  width: 100%;
-  height: 9cm;
-  overflow: hidden;
 }
 
-.banner-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: rgba(0, 0, 0, 0.2); 
-  margin-top: 0;
-  padding-left: 3px;
-}
-
-.banner-text {
+.products-hero .overlay {
   position: absolute;
-  top: 50%;
-  left: 5%;
-  transform: translateY(-50%);
-  color: white;
-  font-size: 2.5rem;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.products-hero h1 {
+  color: #fff;
+  font-size: 3rem;
   font-weight: bold;
 }
 
-.product-circle {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
+/* Product images */
+.product-image-wrapper {
+  width: 100%;
+  height: 220px; /* uniform height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  margin: 0 auto;
-  border: 3px solid #366000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
 }
 
 .product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain; /* keeps original proportions, no crop */
+}
+
+.no-image {
+  font-size: 0.9rem;
+  color: #777;
 }

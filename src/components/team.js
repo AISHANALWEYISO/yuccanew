@@ -18,7 +18,7 @@ const Team = () => {
   }, []);
 
   return (
-    <div className="container  text-center" style={{marginTop:'100px'}}>
+    <div className="container mt-5 text-center" >
       <h2 className="mb-4" style={{ color: "#366000", fontWeight: "bold" }}>
         Meet Our Team
       </h2>

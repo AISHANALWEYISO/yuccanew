@@ -1,42 +1,91 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal, Button, Form, Table, Image } from "react-bootstrap";
-import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { Modal, Button, Form, Table, Spinner } from "react-bootstrap";
+import { FaTrash, FaEdit, FaUpload } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const ProductDashboard = () => {
+const PRODUCTS_API = "http://localhost:5000/api/v1/products";
+const BANNER_API = "http://localhost:5000/api/v1/products/banner";
+const BANNER_UPLOAD_API = "http://localhost:5000/api/v1/products/banner/upload";
+
+const Products = () => {
+  const [bannerUrl, setBannerUrl] = useState("");
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Product Modal States
   const [showModal, setShowModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
   const [formData, setFormData] = useState({ name: "", category: "", image: null });
 
-  const token = localStorage.getItem("token");
-  const API_URL = "http://127.0.0.1:5000/api/v1/products";
-
-  // Fetch all products
-  const fetchProducts = async () => {
+  // Banner Upload
+  const handleBannerUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append("file", file);
     try {
-      const res = await axios.get(`${API_URL}/`);
-      setProducts(res.data.products);
+      const res = await axios.post(BANNER_UPLOAD_API, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setBannerUrl(res.data.image_url);
     } catch (err) {
-      console.error(err);
-      alert("Failed to fetch products");
+      console.error("Banner upload failed:", err);
     }
   };
 
+  // Fetch products + banner
   useEffect(() => {
     fetchProducts();
+    fetchBanner();
   }, []);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value
-    }));
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(PRODUCTS_API);
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    }
+    setLoading(false);
   };
 
-  // Create or update product
+  const fetchBanner = async () => {
+    try {
+      const res = await axios.get(BANNER_API);
+      setBannerUrl(res.data.image_url || "");
+    } catch (err) {
+      console.error("Error fetching banner:", err);
+    }
+  };
+
+  // Handle form changes
+  const handleChange = (e) => {
+    if (e.target.name === "image") {
+      setFormData({ ...formData, image: e.target.files[0] });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
+
+  // Open modal for Add
+  const handleAdd = () => {
+    setEditMode(false);
+    setFormData({ name: "", category: "", image: null });
+    setShowModal(true);
+  };
+
+  // Open modal for Edit
+  const handleEdit = (product) => {
+    setEditMode(true);
+    setCurrentProduct(product);
+    setFormData({ name: product.name, category: product.category, image: null });
+    setShowModal(true);
+  };
+
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -45,149 +94,145 @@ const ProductDashboard = () => {
     if (formData.image) data.append("image", formData.image);
 
     try {
-      if (editingProduct) {
-        await axios.put(`${API_URL}/edit/${editingProduct.id}`, data, {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
-        });
+      if (editMode && currentProduct) {
+        await axios.put(`${PRODUCTS_API}/${currentProduct.product_id}`, data);
       } else {
-        await axios.post(`${API_URL}/create`, data, {
-          headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
-        });
+        await axios.post(PRODUCTS_API, data);
       }
       fetchProducts();
       setShowModal(false);
-      setEditingProduct(null);
-      setFormData({ name: "", category: "", image: null });
     } catch (err) {
-      console.error(err);
-      alert("Error saving product");
+      console.error("Error saving product:", err);
     }
-  };
-
-  // Edit product
-  const handleEdit = (product) => {
-    setEditingProduct(product);
-    setFormData({ name: product.name, category: product.category, image: null });
-    setShowModal(true);
   };
 
   // Delete product
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      try {
-        await axios.delete(`${API_URL}/delete/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        fetchProducts();
-      } catch (err) {
-        console.error(err);
-        alert("Failed to delete product");
-      }
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    try {
+      await axios.delete(`${PRODUCTS_API}/${id}`);
+      fetchProducts();
+    } catch (err) {
+      console.error("Error deleting product:", err);
     }
   };
 
   return (
-    <div className="container my-4">
-      <h2>Product Dashboard</h2>
-      <Button
-        onClick={() => {
-          setShowModal(true);
-          setEditingProduct(null);
-          setFormData({ name: "", category: "", image: null });
+    <div>
+      {/* Banner */}
+      <div
+        className="d-flex align-items-center justify-content-center text-white"
+        style={{
+          height: "300px",
+          backgroundImage: `url(${bannerUrl || "/images/default-banner.jpg"})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          position: "relative",
         }}
-        className="mb-3"
-        style={{ backgroundColor: "#366000", border: "none" }}
       >
-        <FaPlus /> Add Product
-      </Button>
+        <div
+          className="overlay position-absolute w-100 h-100"
+          style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+        />
+        <h1 className="position-relative">Our Products</h1>
+        <label
+          className="btn btn-light position-absolute"
+          style={{ bottom: "20px", right: "20px" }}
+        >
+          <FaUpload /> Change Banner
+          <input type="file" hidden onChange={handleBannerUpload} />
+        </label>
+      </div>
 
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.length ? (
-            products.map((p) => (
-              <tr key={p.id}>
-                <td>{p.id}</td>
-                <td>{p.name}</td>
-                <td>
-                  {p.image ? (
-                    <Image
-                      src={`http://127.0.0.1:5000/static/uploads/${p.image}`}
-                      alt={p.name}
-                      fluid
-                      style={{ maxHeight: "80px", objectFit: "contain" }}
-                    />
-                  ) : (
-                    "No image"
-                  )}
-                </td>
-                <td>
-                  <Button
-                    size="sm"
-                    onClick={() => handleEdit(p)}
-                    style={{ backgroundColor: "#366000", border: "none" }}
-                    className="me-2"
-                  >
-                    <FaEdit />
-                  </Button>
-                  <Button size="sm" variant="danger" onClick={() => handleDelete(p.id)}>
-                    <FaTrash />
-                  </Button>
-                </td>
+      {/* Products Section */}
+      <div className="container my-5">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h2>Product List</h2>
+          <Button variant="success" onClick={handleAdd}>
+            + Add Product
+          </Button>
+        </div>
+
+        {loading ? (
+          <div className="text-center">
+            <Spinner animation="border" />
+          </div>
+        ) : (
+          <Table striped bordered hover responsive>
+            <thead className="table-dark">
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Actions</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4" className="text-center">No products available</td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
+            </thead>
+            <tbody>
+              {products.map((p, index) => (
+                <tr key={p.product_id}>
+                  <td>{index + 1}</td>
+                  <td>{p.name}</td>
+                  <td>{p.category}</td>
+                  <td>
+                    {p.image ? (
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        style={{ width: "60px", height: "60px", borderRadius: "8px" }}
+                      />
+                    ) : (
+                      "No Image"
+                    )}
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-success"
+                      size="sm"
+                      className="me-2"
+                      onClick={() => handleEdit(p)}
+                    >
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => handleDelete(p.product_id)}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </div>
 
-      {/* Add/Edit Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      {/* Modal for Add/Edit */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{editingProduct ? "Edit Product" : "Add Product"}</Modal.Title>
+          <Modal.Title>{editMode ? "Edit Product" : "Add Product"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit} encType="multipart/form-data">
-            <Form.Group className="mb-2">
-              <Form.Label>Name</Form.Label>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Product Name</Form.Label>
               <Form.Control
+                type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
               />
+           
             </Form.Group>
-
-            <Form.Group className="mb-2">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-2">
+            <Form.Group className="mb-3">
               <Form.Label>Image</Form.Label>
               <Form.Control type="file" name="image" onChange={handleChange} />
             </Form.Group>
-
-            <Button
-              type="submit"
-              className="mt-2"
-              style={{ backgroundColor: "#366000", border: "none" }}
-            >
-              {editingProduct ? "Update" : "Create"}
+            <Button type="submit" variant="primary" className="w-100">
+              {editMode ? "Update Product" : "Add Product"}
             </Button>
           </Form>
         </Modal.Body>
@@ -196,4 +241,4 @@ const ProductDashboard = () => {
   );
 };
 
-export default ProductDashboard;
+export default Products;

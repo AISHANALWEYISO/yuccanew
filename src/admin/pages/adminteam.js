@@ -213,3 +213,240 @@ const TeamDashboard = () => {
 };
 
 export default TeamDashboard;
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { Modal, Button, Form, Table } from "react-bootstrap";
+
+// const API_URL = "http://127.0.0.1:5000/api/v1/team";
+
+// const TeamManagement = ({ token }) => {
+//   const [team, setTeam] = useState([]);
+//   const [showModal, setShowModal] = useState(false);
+//   const [editMember, setEditMember] = useState(null);
+//   const [formData, setFormData] = useState({
+//     name: "",
+//     role: "",
+//     twitter: "",
+//     linkedin: "",
+//     image: null,
+//   });
+
+//   // Fetch all members
+//   const fetchTeam = async () => {
+//     try {
+//       const res = await axios.get(API_URL, {
+//         headers: { Authorization: `Bearer ${token}` },
+//       });
+//       setTeam(res.data);
+//     } catch (err) {
+//       console.error("Error fetching team:", err);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchTeam();
+//   }, );
+
+//   // Handle form changes
+//   const handleChange = (e) => {
+//     const { name, value, files } = e.target;
+//     if (files) {
+//       setFormData({ ...formData, [name]: files[0] });
+//     } else {
+//       setFormData({ ...formData, [name]: value });
+//     }
+//   };
+
+//   // Open modal (for add or edit)
+//   const handleShow = (member = null) => {
+//     setEditMember(member);
+//     if (member) {
+//       setFormData({
+//         name: member.name,
+//         role: member.role,
+//         twitter: member.twitter,
+//         linkedin: member.linkedin,
+//         image: null,
+//       });
+//     } else {
+//       setFormData({ name: "", role: "", twitter: "", linkedin: "", image: null });
+//     }
+//     setShowModal(true);
+//   };
+
+//   const handleClose = () => setShowModal(false);
+
+//   // Submit form (create or update)
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const data = new FormData();
+//     for (let key in formData) {
+//       if (formData[key]) data.append(key, formData[key]);
+//     }
+
+//     try {
+//       if (editMember) {
+//         // Update
+//         await axios.put(`${API_URL}/${editMember.id}`, data, {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+//       } else {
+//         // Create
+//         await axios.post(`${API_URL}/create`, data, {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+//       }
+//       fetchTeam();
+//       handleClose();
+//     } catch (err) {
+//       console.error("Error saving member:", err);
+//     }
+//   };
+
+//   // Delete member
+//   const handleDelete = async (id) => {
+//     if (!window.confirm("Are you sure you want to delete this member?")) return;
+//     try {
+//       await axios.delete(`${API_URL}/${id}`, {
+//         headers: { Authorization: `Bearer ${token}` },
+//       });
+//       fetchTeam();
+//     } catch (err) {
+//       console.error("Error deleting member:", err);
+//     }
+//   };
+
+//   return (
+//     <div className="container mt-4">
+//       <h2 className="mb-3">Team Management</h2>
+//       <Button variant="success" onClick={() => handleShow()}>
+//         ➕ Add Member
+//       </Button>
+
+//       <Table striped bordered hover responsive className="mt-3">
+//         <thead>
+//           <tr>
+//             <th>#</th>
+//             <th>Photo</th>
+//             <th>Name</th>
+//             <th>Role</th>
+//             <th>Twitter</th>
+//             <th>LinkedIn</th>
+//             <th>Actions</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {team.map((member, index) => (
+//             <tr key={member.id}>
+//               <td>{index + 1}</td>
+//               <td>
+//                 {member.image ? (
+//                   <img
+//                     src={`http://127.0.0.1:5000${member.image}`}
+//                     alt={member.name}
+//                     width="50"
+//                     height="50"
+//                     style={{ borderRadius: "50%" }}
+//                   />
+//                 ) : (
+//                   "No Image"
+//                 )}
+//               </td>
+//               <td>{member.name}</td>
+//               <td>{member.role}</td>
+//               <td>
+//                 <a href={member.twitter} target="_blank" rel="noreferrer">
+//                   {member.twitter}
+//                 </a>
+//               </td>
+//               <td>
+//                 <a href={member.linkedin} target="_blank" rel="noreferrer">
+//                   {member.linkedin}
+//                 </a>
+//               </td>
+//               <td>
+//                 <Button
+//                   style={{ backgroundColor: "#366000", borderColor: "#366000" }}
+//                   size="sm"
+//                   className="me-2"
+//                   onClick={() => handleShow(member)}
+//                 >
+//                   ✏️ Edit
+//                 </Button>
+//                 <Button
+//                   variant="danger"
+//                   size="sm"
+//                   onClick={() => handleDelete(member.id)}
+//                 >
+//                   🗑️ Delete
+//                 </Button>
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </Table>
+
+//       {/* Modal for Add/Edit */}
+//       <Modal show={showModal} onHide={handleClose}>
+//         <Modal.Header closeButton>
+//           <Modal.Title>{editMember ? "Edit Member" : "Add Member"}</Modal.Title>
+//         </Modal.Header>
+//         <Modal.Body>
+//           <Form onSubmit={handleSubmit}>
+//             <Form.Group className="mb-3">
+//               <Form.Label>Name</Form.Label>
+//               <Form.Control
+//                 name="name"
+//                 value={formData.name}
+//                 onChange={handleChange}
+//                 required
+//               />
+//             </Form.Group>
+//             <Form.Group className="mb-3">
+//               <Form.Label>Role</Form.Label>
+//               <Form.Control
+//                 name="role"
+//                 value={formData.role}
+//                 onChange={handleChange}
+//                 required
+//               />
+//             </Form.Group>
+//             <Form.Group className="mb-3">
+//               <Form.Label>Twitter</Form.Label>
+//               <Form.Control
+//                 name="twitter"
+//                 value={formData.twitter}
+//                 onChange={handleChange}
+//               />
+//             </Form.Group>
+//             <Form.Group className="mb-3">
+//               <Form.Label>LinkedIn</Form.Label>
+//               <Form.Control
+//                 name="linkedin"
+//                 value={formData.linkedin}
+//                 onChange={handleChange}
+//               />
+//             </Form.Group>
+//             <Form.Group className="mb-3">
+//               <Form.Label>Image</Form.Label>
+//               <Form.Control
+//                 type="file"
+//                 name="image"
+//                 onChange={handleChange}
+//               />
+//             </Form.Group>
+//             <Button
+//               type="submit"
+//               style={{ backgroundColor: "#366000", borderColor: "#366000" }}
+//             >
+//               {editMember ? "Update" : "Save"}
+//             </Button>
+//           </Form>
+//         </Modal.Body>
+//       </Modal>
+//     </div>
+//   );
+// };
+
+// export default TeamManagement;

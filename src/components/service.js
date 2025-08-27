@@ -131,8 +131,8 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="container " style={{marginTop:'100px'}}>
-      <h2 className="text-center mb-4">Our Services</h2>
+    <div className="container mt-3" >
+      <h2 className="text-center mb-4" style={{color:'#366000'}}>Our Services</h2>
       <div className="row">
         {services.map(service => (
           <div className="col-md-4 mb-4" key={service.id}>
