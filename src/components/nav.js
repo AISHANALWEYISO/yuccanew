@@ -117,6 +117,7 @@ const Nav = () => {
 
           <li><Link to="/services" className="navbar-link">Services</Link></li>
           <li><Link to="/contact" className="navbar-link">Contact</Link></li>
+          <li><Link to="/booking" className="navbar-link">Booking</Link></li>
         </ul>
       </div>
     </nav>

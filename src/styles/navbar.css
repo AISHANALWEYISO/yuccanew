@@ -6,7 +6,7 @@
   top: 0;
   width: 100%;
   background-color: #e0f1e5; /* Solid light green */
-  height: 75px;
+  height: 70px;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: background-color 0.4s ease;
@@ -66,10 +66,12 @@
   display: flex;
   gap: 2.2rem;
   align-items: center;
+  
 }
 
 .navbar-links li {
   position: relative;
+  
 }
 
 /* === Link Styling (All links including About) === */

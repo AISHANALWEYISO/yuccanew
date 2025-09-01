@@ -270,7 +270,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import logo from "../images/logo.png"; // replace with your actual logo path
+import logo from "../images/logo1.png"; // replace with your actual logo path
 
 const Booking = () => {
   const [form, setForm] = useState({
