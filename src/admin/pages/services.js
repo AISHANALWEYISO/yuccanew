@@ -12,7 +12,7 @@ import {
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { getToken } from '../utils/auth';
 import '../../styles/adminservices.css'; // Your theme CSS
-
+ const API_BASE_URL = process.env.REACT_APP_API_URL;
 const ServiceDashboard = () => {
   const [services, setServices] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +32,7 @@ const ServiceDashboard = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.get('http://localhost:5000/api/v1/services/');
+      const res = await axios.get(`${API_BASE_URL}/api/v1/services/`);
       // Assuming backend sends { services: [...] }
       setServices(res.data.services || res.data || []);
     } catch (err) {
@@ -101,12 +101,12 @@ const ServiceDashboard = () => {
     try {
       if (editingService) {
         await axios.put(
-          `http://localhost:5000/api/v1/services/edit/${editingService.id}`,
+          `${API_BASE_URL}/api/v1/services/edit/${editingService.id}`,
           data,
           { headers: authHeaders }
         );
       } else {
-        await axios.post('http://localhost:5000/api/v1/services/create', data, {
+        await axios.post(`${API_BASE_URL}/api/v1/services/create`, data, {
           headers: authHeaders,
         });
       }
@@ -124,7 +124,7 @@ const ServiceDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this service?')) return;
     setError('');
     try {
-      await axios.delete(`http://localhost:5000/api/v1/services/delete/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/v1/services/delete/${id}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       fetchServices();
@@ -169,7 +169,7 @@ const ServiceDashboard = () => {
                 <td>
                   {service.image ? (
                     <Image
-                      src={`http://localhost:5000/${service.image}`}
+                      src={`${API_BASE_URL}/${service.image}`}
                       alt={service.name}
                       rounded
                       style={{ width: 60, height: 60, objectFit: 'cover' }}

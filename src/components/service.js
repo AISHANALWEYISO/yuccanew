@@ -6,13 +6,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const backendBaseURL = 'http://127.0.0.1:5000';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const Services = () => {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    axios.get(`${backendBaseURL}/api/v1/services`)
+    axios.get(`${API_BASE_URL}/api/v1/services`)
       .then(res => {
         setServices(res.data.services);
       })
@@ -29,7 +29,7 @@ const Services = () => {
           <div className="col-md-4 mb-4" key={service.id}>
             <div className="card h-100 shadow-sm">
               <img
-                src={`${backendBaseURL}/${service.image}`}
+                src={`${API_BASE_URL}/${service.image}`}
                 className="card-img-top"
                 alt={service.name}
                 style={{ height: '200px', objectFit: 'cover' }}

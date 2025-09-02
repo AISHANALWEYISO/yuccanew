@@ -10,12 +10,11 @@ import '../styles/About.css'
 
 const About = () => {
   const [aboutData, setAboutData] = useState(null);
-  const backendBaseURL = 'http://127.0.0.1:5000'; // base URL for images
-
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchAbout = async () => {
       try {
-        const response = await axios.get(`${backendBaseURL}/api/v1/about/`);
+        const response = await axios.get(`${API_BASE_URL}/api/v1/about/`);
         setAboutData(response.data);
       } catch (error) {
         console.error('Error fetching About page data:', error);
@@ -54,7 +53,7 @@ const About = () => {
           <Col md={6} style={{ padding: 0 }}>
             {aboutData.intro_image && (
               <Image
-                src={`${backendBaseURL}${aboutData.intro_image}`}
+                src={`${API_BASE_URL}${aboutData.intro_image}`}
                 alt="Intro"
                 fluid
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -100,7 +99,7 @@ const About = () => {
           <Col md={6} style={{ padding: 0 }}>
             {aboutData.values_image && (
               <Image
-                src={`${backendBaseURL}${aboutData.values_image}`}
+                src={`${API_BASE_URL}${aboutData.values_image}`}
                 alt="Values"
                 fluid
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -114,7 +113,7 @@ const About = () => {
           <Col md={6} style={{ padding: 0 }}>
             {aboutData.expertise_image && (
               <Image
-                src={`${backendBaseURL}${aboutData.expertise_image}`}
+                src={`${API_BASE_URL}${aboutData.expertise_image}`}
                 alt="Expertise"
                 fluid
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

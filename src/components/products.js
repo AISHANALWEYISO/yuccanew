@@ -6,8 +6,9 @@ import axios from "axios";
 import "../styles/products.css"; // custom styles
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const PRODUCTS_API = "http://localhost:5000/api/v1/products";
-const BANNER_API = "http://localhost:5000/api/v1/products/banner";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+const PRODUCTS_API = `${API_BASE_URL}/api/v1/products`;
+const BANNER_API = `${API_BASE_URL}/api/v1/products/banner`;
 
 const Products = () => {
   const [bannerUrl, setBannerUrl] = useState("");

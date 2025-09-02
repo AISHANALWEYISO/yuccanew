@@ -4,9 +4,11 @@ import { Modal, Button, Form, Table, Spinner } from "react-bootstrap";
 import { FaTrash, FaEdit, FaUpload } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const PRODUCTS_API = "http://localhost:5000/api/v1/products";
-const BANNER_API = "http://localhost:5000/api/v1/products/banner";
-const BANNER_UPLOAD_API = "http://localhost:5000/api/v1/products/banner/upload";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+const PRODUCTS_API = `${API_BASE_URL}/api/v1/products`;
+const BANNER_API = `${API_BASE_URL}/api/v1/products/banner`;
+const BANNER_UPLOAD_API = `${API_BASE_URL}/api/v1/products/banner/upload`;
 
 const Products = () => {
   const [bannerUrl, setBannerUrl] = useState("");

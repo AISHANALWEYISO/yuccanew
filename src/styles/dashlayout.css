@@ -1,109 +1,100 @@
-/* Container for sidebar + main content
+/* Dashboard container: sidebar + main content */
 .dashboard-container {
   display: flex;
   min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5; /* light background for readability */
 }
 
 /* Sidebar styling */
-.sidebar {
-  width: 250px;
-  min-height: 100vh;
-  background-color: #366000;
-  color: white;
-  padding: 1rem;
-  position: fixed; /* stays fixed */
-  top: 0;
-  left: 0;
-  overflow-y: auto;
-}
-
-/* Main content */
-.main-content {
-  margin-left: 250px; /* same as sidebar width */
-  flex-grow: 1;
-  width: calc(100% - 250px);
-}
-
-/* NavLink styles */
-.nav-link {
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  margin-bottom: 0.25rem;
-  transition: background-color 0.3s;
-}
-
-.nav-link:hover {
-  background-color: #4a7c00;
-}
-
-.nav-link.active {
-  background-color: #4a7c00;
-} */
-
-.dashboard-container {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   width: 230px;
   height: 100vh;
-  background-color: #366000;
+  background-color: #366000; /* dark green sidebar */
   padding: 20px;
-  color: white;
+  color: #ffffff;
   overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
+/* Sidebar navigation links */
 .sidebar .nav-link {
-  color: #ddd;
+  display: flex;
+  align-items: center;
+  color: #e0e0e0;
   margin: 8px 0;
-  transition: 0.3s;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active {
   background-color: #6da02b;
-  border-radius: 6px;
-  color: white !important;
-  padding-left: 12px;
+  color: #ffffff !important;
+  padding-left: 18px;
 }
 
-/* Main Content */
+/* Main content area */
 .main-content {
-  margin-left: 230px; /* same as sidebar width */
+  margin-left: 230px; /* same width as sidebar */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-/* Topbar */
+/* Topbar fixed at top */
 .topbar {
   position: fixed;
   top: 0;
-  left: 230px; /* align next to sidebar */
+  left: 230px; /* next to sidebar */
   right: 0;
   height: 60px;
-  background-color: #afc296ff !important;
-  z-index: 1000;
-  padding: 0 15px;
+  background-color: #afc296; /* soft green */
   display: flex;
   align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  color: #333333;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Scrollable content area */
+/* Scrollable content area below topbar */
 .content {
-  margin-top: 60px; /* push down below topbar */
+  margin-top: 60px; /* height of topbar */
   padding: 20px;
   overflow-y: auto;
-  height: calc(100vh - 60px);
+  flex-grow: 1;
+  color: #333333; /* dark text for readability */
+}
+
+/* Overview cards container */
+.overview-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Individual card styling */
+.card {
+  flex: 1 1 250px;
+  min-width: 200px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  color: #333333;
+  font-size: 14px;
+}
+
+/* Optional: scrollable sections for wide content */
+.scrollable-section {
+  overflow-x: auto;
+  width: 100%;
 }

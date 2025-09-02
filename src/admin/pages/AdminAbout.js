@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 const AboutDashboard = () => {
   const [aboutId, setAboutId] = useState(null);
   const [formData, setFormData] = useState({
@@ -26,15 +27,15 @@ const AboutDashboard = () => {
   const [message, setMessage] = useState('');
 
   // Updated URLs to match your Flask routes
-  const API_URL = 'http://127.0.0.1:5000/api/v1/about/';
-  const CREATE_URL = `${API_URL}create`;
-  const EDIT_URL = (id) => `${API_URL}edit/${id}`;
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+  const CREATE_URL = `${API_BASE_URL}/api/v1/about/create`;
+  const EDIT_URL = (id) => `${API_BASE_URL}/api/v1/about/edit/${id}`;
 
   const token = localStorage.getItem('token'); // Assuming JWT is stored here
 
   // Fetch existing About data
   useEffect(() => {
-    axios.get(API_URL)
+    axios.get(API_BASE_URL)
       .then(res => {
         const data = res.data;
         setAboutId(data.id);

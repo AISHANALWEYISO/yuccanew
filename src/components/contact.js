@@ -11,9 +11,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const FOOTER_API = "http://localhost:5000/api/v1/footer";
-const CONTACT_API = "http://localhost:5000/api/v1/contact/submit";
-const BANNER_API = "http://localhost:5000/api/v1/contact/banner";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+const FOOTER_API = `${API_BASE_URL}/api/v1/footer`;
+const CONTACT_API = `${API_BASE_URL}/api/v1/contact/submit`;
+const BANNER_API = `${API_BASE_URL}/api/v1/contact/banner`;
 
 const ContactUs = () => {
   const [footer, setFooter] = useState(null);

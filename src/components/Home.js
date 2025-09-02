@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 
-const API_HOST = "http://localhost:5000";
-const API_BASE = `${API_HOST}/api/v1/homepage`;
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE = `${API_BASE_URL}/api/v1/homepage`;
 
 const Home = () => {
   const [intro, setIntro] = useState({});
@@ -37,7 +37,7 @@ const Home = () => {
       {intro.image && (
         <div
           style={{
-            backgroundImage: `url(${API_HOST}${intro.image})`,
+            backgroundImage: `url(${API_BASE_URL}${intro.image})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -120,7 +120,7 @@ const Home = () => {
                   {item.image && (
                     <Card.Img
                       variant="top"
-                      src={`${API_HOST}${item.image}`}
+                      src={`${API_BASE_URL}${item.image}`}
                       style={{
                         borderRadius: "20px",
                         height: "180px",
@@ -157,7 +157,7 @@ const Home = () => {
                 <Card className="border-0 h-100 shadow-sm d-flex flex-column">
                   {item.image && (
                     <Card.Img
-                      src={`${API_HOST}${item.image}`}
+                      src={`${API_BASE_URL}${item.image}`}
                       alt={item.title}
                       style={{
                         height: "250px",
@@ -207,7 +207,7 @@ const Home = () => {
                 <div className="d-flex flex-column align-items-center">
                   {product.image && (
                     <img
-                      src={`${API_HOST}${product.image}`}
+                      src={`${API_BASE_URL}${product.image}`}
                       alt={product.name}
                       style={{
                         width: "180px",
@@ -243,7 +243,7 @@ const Home = () => {
               <Col key={partner.id} md={3} sm={6}>
                 {partner.logo && (
                   <img
-                    src={`${API_HOST}${partner.logo}`}
+                    src={`${API_BASE_URL}${partner.logo}`}
                     alt={partner.name}
                     style={{ maxHeight: "100px", objectFit: "contain" }}
                   />

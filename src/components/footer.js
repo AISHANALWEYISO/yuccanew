@@ -8,14 +8,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000/api/v1/footer";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const Footer = () => {
   const [quickLinks, setQuickLinks] = useState([]);
   const [contact, setContact] = useState(null);
 
   useEffect(() => {
-    axios.get(API_BASE)
+    axios.get(`${API_BASE_URL}/api/v1/footer`)
       .then(res => {
         const data = res.data;
         // Quick Links: all records that have link_name and link_url

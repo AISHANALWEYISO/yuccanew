@@ -5,14 +5,14 @@ import React, { useEffect, useState } from "react";
 import { FaLinkedinIn } from "react-icons/fa";
 import axios from "axios";
 
-const API = "http://127.0.0.1:5000/api/v1/team";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const Team = () => {
   const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
     axios
-      .get(API)
+      .get(`${API_BASE_URL}/api/v1/team`)
       .then((res) => setTeamMembers(res.data))
       .catch((err) => console.error("Error fetching team:", err));
   }, []);
@@ -30,8 +30,8 @@ const Team = () => {
               <img
                 src={
                   member.image
-                    ? `http://127.0.0.1:5000${member.image}`
-                    : "http://127.0.0.1:5000/static/default.jpg"
+                    ? `API_BASE_URL${member.image}`
+                    : "API_BASE_URL/static/default.jpg"
                 }
                 alt={member.name}
                 className="mx-auto mt-3"
@@ -42,7 +42,7 @@ const Team = () => {
                   borderRadius: "50%",
                 }}
                 onError={(e) => {
-                  e.target.src = "http://127.0.0.1:5000/static/default.jpg";
+                  e.target.src = "API_BASE_URL/static/default.jpg";
                 }}
               />
 

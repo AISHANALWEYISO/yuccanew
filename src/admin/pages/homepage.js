@@ -13,7 +13,9 @@ const HomepageDashboard = () => {
   const [products, setProducts] = useState([]);
   const [partners, setPartners] = useState([]);
 
-  const API = "http://127.0.0.1:5000/api/v1/homepage";
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+  const API = `${API_BASE_URL }/api/v1/homepage`;
 
   useEffect(() => { fetchData(); }, []);
 

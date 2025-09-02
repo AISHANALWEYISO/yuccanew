@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const Login = () => {
   const [form, setForm] = useState({ name: '', email: '' });
   const [message, setMessage] = useState('');

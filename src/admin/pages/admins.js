@@ -4,6 +4,7 @@ import { Button, Modal, Form, Table } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import { getToken } from '../utils/auth';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 const ManageAdmins = () => {
   const [admins, setAdmins] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +25,7 @@ const ManageAdmins = () => {
 
   const fetchAdmins = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/v1/admin/all', { headers });
+      const response = await axios.get(`${API_BASE_URL}/api/v1/admin/all`, { headers });
       setAdmins(response.data.admins || []);
     } catch (error) {
       console.error('Fetch failed:', error.response || error);
@@ -88,11 +89,11 @@ const ManageAdmins = () => {
         const dataToSend = { ...formData };
         if (!formData.password) delete dataToSend.password; // Remove password if empty
 
-        await axios.put(`http://localhost:5000/api/v1/admin/update/${editingAdminId}`, dataToSend, { headers });
+        await axios.put(`${API_BASE_URL}/api/v1/admin/update/${editingAdminId}`, dataToSend, { headers });
         alert('Admin updated successfully!');
       } else {
         // Create admin (password required)
-        await axios.post('http://localhost:5000/api/v1/admin/create', formData, { headers });
+        await axios.post(`${API_BASE_URL}/api/v1/admin/create`, formData, { headers });
         alert('Admin created successfully!');
       }
       closeModal();
@@ -107,7 +108,7 @@ const ManageAdmins = () => {
     if (!window.confirm('Are you sure you want to delete this admin?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/v1/admin/delete/${id}`, { headers });
+      await axios.delete(`${API_BASE_URL}/api/v1/admin/delete/${id}`, { headers });
       alert('Admin deleted successfully!');
       fetchAdmins();
     } catch (error) {
