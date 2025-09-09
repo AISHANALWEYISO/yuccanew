@@ -1,18 +1,17 @@
-/* src/styles/navbar.css */
-
-/* === Base navbar === */
+/* =========================
+   Navbar Base
+========================= */
 .navbar-container {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #e0f1e5; /* Solid light green */
   height: 70px;
-  z-index: 1000;
+  background-color: #e0f1e5;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
   transition: background-color 0.4s ease;
 }
 
-/* === Inner layout === */
 .navbar-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -23,14 +22,18 @@
   height: 100%;
 }
 
-/* === Logo === */
+/* =========================
+   Logo
+========================= */
 .navbar-logo {
   height: 80px;
   width: auto;
   vertical-align: middle;
 }
 
-/* === Hamburger Menu (Mobile) === */
+/* =========================
+   Hamburger Menu (Mobile)
+========================= */
 .navbar-hamburger {
   display: none;
   flex-direction: column;
@@ -42,8 +45,8 @@
   height: 3px;
   background-color: #366000;
   margin: 4px 0;
-  transition: 0.3s;
   border-radius: 2px;
+  transition: 0.3s;
 }
 
 .navbar-hamburger.open span:nth-child(1) {
@@ -58,23 +61,18 @@
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* === Navigation Links === */
+/* =========================
+   Navigation Links
+========================= */
 .navbar-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  gap: 2.2rem;
-  align-items: center;
-  
 }
 
-.navbar-links li {
-  position: relative;
-  
-}
-
-/* === Link Styling (All links including About) === */
 .navbar-link,
 .dropdown-btn {
   color: #366000;
@@ -90,47 +88,44 @@
   color: #48e709;
 }
 
-/* === "About" Dropdown Button – Clean Text + Arrow (▼) === */
+/* =========================
+   Dropdown Button
+========================= */
 .dropdown-btn {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  cursor: pointer;
   background: none;
   border: none;
   padding: 0;
-  margin: 0;
+  cursor: pointer;
   outline: none;
 }
 
-/* Add dropdown arrow using CSS */
 .dropdown-btn::after {
-  
   font-size: 0.7em;
   color: #366000;
-  transition: all 0.3s ease;
+  margin-left: 4px;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-btn:hover::after {
   color: #48e709;
-  transform: scale(1.1);
 }
 
-/* === Dropdown Menu === */
 .navbar-dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  background: white;
-  list-style: none;
-  padding: 0.6rem 0;
-  min-width: 180px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #fff;
   border-radius: 8px;
+  min-width: 180px;
+  padding: 0.5rem 0;
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1001;
 }
 
@@ -142,7 +137,7 @@
 
 .navbar-dropdown-link {
   display: block;
-  padding: 0.7rem 1rem;
+  padding: 0.6rem 1rem;
   color: #366000;
   text-decoration: none;
   font-size: 0.95rem;
@@ -154,40 +149,39 @@
   color: #2c5a34;
 }
 
-/* === Mobile Responsive === */
+/* =========================
+   Mobile Responsive
+========================= */
 @media (max-width: 768px) {
   .navbar-hamburger {
     display: flex;
-    z-index: 1001;
   }
 
   .navbar-links {
     position: absolute;
-    top: 75px;
+    top: 70px;
     left: 0;
-    right: 0;
+    width: 100%;
     flex-direction: column;
     background-color: #e0f1e5;
-    padding: 1rem 0;
-    gap: 0;
-    height: 0;
     overflow: hidden;
-    transition: height 0.4s ease;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+    z-index: 999;
+    gap: 0;
   }
 
   .navbar-links.open {
-    height: auto;
-    overflow: visible;
+    max-height: 500px; /* enough to show all links */
   }
 
   .navbar-link,
   .dropdown-btn {
     padding: 0.8rem 1.5rem;
-    text-align: left;
     width: 100%;
+    text-align: left;
   }
 
-  /* Mobile: dropdown appears below */
   .navbar-dropdown {
     position: static;
     opacity: 1;
@@ -196,20 +190,19 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .navbar-dropdown.open {
     max-height: 300px;
   }
 
-  /* Mobile: arrow rotates on open */
   .dropdown-btn::after {
-    
     float: right;
   }
 
-  .navbar-dropdown.open ~ .dropdown-btn::after,
-  [aria-expanded='true']::after {
+  .dropdown-btn[aria-expanded="true"]::after {
     transform: rotate(180deg);
   }
 }

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const ShowUsers = () => {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +22,7 @@ const ShowUsers = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://127.0.0.1:5000/api/v1/users/', {
+      const res = await axios.get(`${API_BASE_URL}/api/v1/users/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data.users);

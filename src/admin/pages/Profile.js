@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Card, Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { getToken } from '../utils/auth'; // Token helper
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const AdminProfile = () => {
   const [admin, setAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const AdminProfile = () => {
     const fetchProfile = async () => {
       try {
         const token = getToken();
-        const response = await axios.get('http://127.0.0.1:5000/api/v1/admin/profile', {
+        const response = await axios.get(`${API_BASE_URL}/api/v1/admin/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

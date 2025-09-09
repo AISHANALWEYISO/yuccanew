@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../images/logo1.png';
+// import logo from '../images/logo1.png';
 import '../styles/navbar.css';
 
 const Nav = () => {
@@ -22,7 +22,7 @@ const Nav = () => {
       <div className="navbar-inner">
         {/* Logo */}
         <Link to="/" className="navbar-logo-link">
-          <img src={logo} alt="Yucca Logo" className="navbar-logo" />
+          <img src="/yucca-logo.png" alt="Yucca Logo" className="navbar-logo" />
         </Link>
 
         {/* Hamburger (Mobile) */}
